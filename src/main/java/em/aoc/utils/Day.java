@@ -1,38 +1,27 @@
 package em.aoc.utils;
 
+import java.util.List;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.lang.reflect.InvocationTargetException;
-import java.lang.reflect.Method;
 
-public class Day {
+public abstract class Day {
     private static final Logger logger = LoggerFactory.getLogger(Day.class);
-    private Object dayClass = null;
+    protected List<String> lines;
 
-    public Day(String year, String day) {
+    public static Day getClassInstance(String year, String day, String className) {
         try {
-            String className = "em.aoc.year" + year + ".Day" + day;
-            dayClass = Class.forName(className).getDeclaredConstructor()
+            String classPath = "em.aoc.year" + year + "." + className + day;
+            return (Day) Class.forName(classPath).getDeclaredConstructor()
                     .newInstance();
         } catch (InstantiationException | IllegalAccessException | InvocationTargetException | NoSuchMethodException |
                  ClassNotFoundException exception) {
             logger.error("Error creating instance: {}", exception.toString());
         }
-    }
-
-    public String invokePartNo(String partNo) {
-        String methodName = "part" + partNo;
-        try {
-            Method method = dayClass.getClass().getMethod(methodName);
-            return (String) method.invoke(dayClass);
-        } catch (IllegalAccessException | InvocationTargetException | NoSuchMethodException exception) {
-            logger.error("Error invoking the method {}: {}", methodName, exception.toString());
-        }
         return null;
     }
 
-    public String invokeBothParts() {
-        return invokePartNo("1") + "/n" + invokePartNo("2");
-    }
+    protected abstract String part1();
+    protected abstract String part2();
 }
