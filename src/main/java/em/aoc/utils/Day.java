@@ -1,27 +1,31 @@
 package em.aoc.utils;
 
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.util.List;
 import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
-import java.lang.reflect.InvocationTargetException;
 
 public abstract class Day {
-    private static final Logger logger = LoggerFactory.getLogger(Day.class);
-    protected List<String> lines;
 
-    public static Day getClassInstance(String year, String day, String className) {
-        try {
-            String classPath = "em.aoc.year" + year + "." + className + day;
-            return (Day) Class.forName(classPath).getDeclaredConstructor()
-                    .newInstance();
-        } catch (InstantiationException | IllegalAccessException | InvocationTargetException | NoSuchMethodException |
-                 ClassNotFoundException exception) {
-            logger.error("Error creating instance: {}", exception.toString());
-        }
-        return null;
+  protected static Logger logger;
+  protected static String filePath;
+  protected List<String> lines;
+
+  protected static List<String> readLines() {
+    List<String> lines = null;
+    try {
+      lines = Files.readAllLines(Paths.get(filePath));
+    } catch (IOException exception) {
+      logger.error("An error occurred when reading the file: {}", filePath);
+      logger.error(exception.toString());
     }
+    return lines;
+  }
 
-    protected abstract String part1();
-    protected abstract String part2();
+  abstract public String part1();
+
+  abstract public String part2();
+
+
 }
