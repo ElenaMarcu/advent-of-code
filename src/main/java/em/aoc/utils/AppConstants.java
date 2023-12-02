@@ -30,7 +30,9 @@ public class AppConstants {
   public static final String DAY23 = "Day23";
   public static final String DAY24 = "Day24";
   public static final String DAY25 = "Day25";
-
+  public static final String GREEN = "green";
+  public static final String BLUE = "blue";
+  public static final String RED = "red";
 
   public static final String TXT_EXTENSION = ".txt";
 
