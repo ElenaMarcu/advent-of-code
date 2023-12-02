@@ -8,7 +8,7 @@ import org.slf4j.Logger;
 
 public abstract class Day {
 
-  protected static Logger logger;
+  public static Logger logger;
   protected static String filePath;
   protected List<String> lines;
 

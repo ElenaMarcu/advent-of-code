@@ -22,7 +22,7 @@ public class Utilities {
         return day.part2();
       }
     }
-    return day.part1() + "/n" + day.part2();
+    return day.part1() + "\r\n" + day.part2();
   }
 
   public static Object getClassInstance(String[] args, String className) {
