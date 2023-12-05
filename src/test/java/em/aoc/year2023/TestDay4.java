@@ -26,7 +26,7 @@ public class TestDay4 extends TestDay {
   public void testPart2() {
     logger.info("Testing part2");
     String result = day.part2();
-    assertEquals("2286", result);
+    assertEquals("30", result);
   }
 
 }
