@@ -1,9 +1,14 @@
 package em.aoc.utils;
 
-public interface TestDay {
+import org.slf4j.Logger;
 
-  public void testPart1();
+public abstract class TestDay {
 
-  public void testPart2();
+  protected static Logger logger;
+  protected static Day day;
+
+  abstract public void testPart1();
+
+  abstract public void testPart2();
 
 }

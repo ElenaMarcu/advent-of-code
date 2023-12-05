@@ -2,18 +2,16 @@ package em.aoc.year2023;
 
 import static org.junit.Assert.assertEquals;
 
-import em.aoc.utils.Day;
 import em.aoc.utils.TestDay;
+import em.aoc.year2015.Day1;
 import org.junit.Test;
-import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-public class TestDay1 implements TestDay {
-
-  private static final Logger logger = LoggerFactory.getLogger(TestDay1.class);
-  private final Day day = new Day1();
+public class TestDay1 extends TestDay {
 
   public TestDay1() {
+    logger = LoggerFactory.getLogger(TestDay1.class);
+    day = new Day1();
   }
 
   @Override

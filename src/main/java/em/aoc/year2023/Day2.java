@@ -16,7 +16,6 @@ public class Day2 extends Day {
     filePath = AppConstants.RESOURCES_PATH_MAIN + AppConstants.YEAR_2023 + AppConstants.DAY2
         + AppConstants.TXT_EXTENSION;
     lines = readLines();
-
   }
 
   private static void addPossibleLines(String line) {

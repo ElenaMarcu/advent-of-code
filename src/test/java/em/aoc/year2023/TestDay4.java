@@ -6,11 +6,11 @@ import em.aoc.utils.TestDay;
 import org.junit.Test;
 import org.slf4j.LoggerFactory;
 
-public class TestDay2 extends TestDay {
+public class TestDay4 extends TestDay {
 
-  public TestDay2() {
-    logger = LoggerFactory.getLogger(TestDay2.class);
-    day = new Day2();
+  public TestDay4() {
+    logger = LoggerFactory.getLogger(TestDay4.class);
+    day = new Day4();
   }
 
   @Override
@@ -18,7 +18,7 @@ public class TestDay2 extends TestDay {
   public void testPart1() {
     logger.info("Testing part1");
     String result = day.part1();
-    assertEquals("8", result);
+    assertEquals("13", result);
   }
 
   @Override
@@ -28,4 +28,5 @@ public class TestDay2 extends TestDay {
     String result = day.part2();
     assertEquals("2286", result);
   }
+
 }

@@ -4,14 +4,13 @@ import static org.junit.Assert.assertEquals;
 
 import em.aoc.utils.TestDay;
 import org.junit.Test;
-import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-public class TestDay1 implements TestDay {
-
-  private static final Logger logger = LoggerFactory.getLogger(TestDay1.class);
+public class TestDay1 extends TestDay {
 
   public TestDay1() {
+    logger = LoggerFactory.getLogger(TestDay1.class);
+    day = new Day1();
   }
 
   @Override
