@@ -12,6 +12,7 @@ public class TestDay3 extends TestDay {
     logger = LoggerFactory.getLogger(TestDay3.class);
     day = new Day3();
   }
+
   @Override
   @Test
   public void testPart1() {
@@ -23,6 +24,8 @@ public class TestDay3 extends TestDay {
   @Override
   @Test
   public void testPart2() {
-
+    logger.info("Testing part2");
+    String result = day.part2();
+    assertEquals("467835", result);
   }
 }
