@@ -3,57 +3,81 @@ package em.aoc.year2023;
 import em.aoc.utils.AppConstants;
 import em.aoc.utils.Day;
 import java.util.ArrayList;
-import java.util.Arrays;
+import java.util.Collections;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+import java.util.Map.Entry;
 import org.slf4j.LoggerFactory;
 
 public class Day5 extends Day {
 
-  private List<Long> locations;
+  private final Map<Integer, List<String[]>> almanac;
 
   public Day5() {
     logger = LoggerFactory.getLogger(Day5.class);
     filePath = AppConstants.RESOURCES_PATH_MAIN + AppConstants.YEAR_2023 + AppConstants.DAY5
         + AppConstants.TXT_EXTENSION;
     lines = readLines();
+    almanac = readAlmanac();
   }
 
   @Override
   public String part1() {
-    locations = new ArrayList<>();
-    computeSeedsLocation(false);
-    return findLowestLocation();
+    List<Long> locations = readInitialLocations(false);
+    convertSeedLocation(locations, almanac);
+    return String.valueOf(Collections.min(locations));
   }
 
-  private String findLowestLocation() {
-    long min = Long.MAX_VALUE;
-    for (long location : locations) {
-      if (min > location) {
-        min = location;
+  private void convertSeedLocation(List<Long> locations,
+      Map<Integer, List<String[]>> almanac) {
+    int j = 0;
+    while (j < locations.size()) {
+      for (Entry<Integer, List<String[]>> entry : almanac.entrySet()) {
+        locations.set(j, findLocationNumber(entry.getValue(), locations.get(j)));
+      }
+      j++;
+    }
+  }
+
+  private Long findLocationNumber(List<String[]> mapSourceDestination, Long currentLocation) {
+    for (String[] numbers : mapSourceDestination) {
+      long sourceStart = Long.parseLong(numbers[0]);
+      long destinationStart = Long.parseLong(numbers[1]);
+      long rangeLength = Long.parseLong(numbers[2]);
+      if (destinationStart <= currentLocation
+          && currentLocation <= (destinationStart + rangeLength)) {
+        return sourceStart + currentLocation - destinationStart;
       }
     }
-    return String.valueOf(min);
+    return currentLocation;
   }
 
-  private void computeSeedsLocation(boolean isPart2) {
-    int i = 0;
+  private Map<Integer, List<String[]>> readAlmanac() {
+    Map<Integer, List<String[]>> map = new HashMap<>();
+    int mapIndex = 0;
+    int i = 1;
     while (i < lines.size()) {
       String line = lines.get(i);
-      if (line.startsWith("seeds:")) {
-        line = line.split(":")[1].strip();
-        addSeeds(line, isPart2);
+      if ("seed-to-soil map:".equals(line) || "light-to-temperature map:".equals(line)
+          || "soil-to-fertilizer map:".equals(line) || "fertilizer-to-water map:".equals(line)
+          || "water-to-light map:".equals(line) || "temperature-to-humidity map:".equals(line)
+          || "humidity-to-location map:".equals(line)) {
+        {
+          List<String[]> mapSourceDestination = new ArrayList<>();
+          i = moveToNewSection(i, mapSourceDestination);
+          map.put(mapIndex++, mapSourceDestination);
+        }
+
       }
-      i = switch (line) {
-        case "seed-to-soil map:", "light-to-temperature map:", "soil-to-fertilizer map:", "fertilizer-to-water map:", "water-to-light map:", "temperature-to-humidity map:", "humidity-to-location map:" ->
-            convertSeedNumber(i, isPart2);
-        default -> i;
-      };
       i++;
     }
+    return map;
   }
 
-  private void addSeeds(String line, boolean isPart2) {
-    String[] seeds = line.split("\\s+");
+  private List<Long> readInitialLocations(boolean isPart2) {
+    List<Long> locations = new ArrayList<>();
+    String[] seeds = lines.get(0).split(":")[1].strip().split("\\s+");
     int i = 0;
     while (i < seeds.length) {
       if (isPart2) {
@@ -66,56 +90,58 @@ public class Day5 extends Day {
       }
       i++;
     }
-    logger.info(Arrays.toString(locations.toArray()));
+    return locations;
   }
 
-  private int convertSeedNumber(int i, boolean isPart2) {
+  private int moveToNewSection(int i, List<String[]> mapSourceDestination) {
     i++;
-    List<String[]> mapSourceDestination = new ArrayList<>();
     while (i < lines.size() && lines.get(i).matches("\\d+\\s+\\d+\\s+\\d+")) {
       mapSourceDestination.add(lines.get(i).split("\\s+"));
       i++;
     }
-    updatePosition(mapSourceDestination, isPart2);
-
-    logger.info(Arrays.toString(locations.toArray()));
     return i;
-  }
-
-  private void updatePosition(List<String[]> mapSourceDestination, boolean isPart2) {
-    int j = 0;
-    while (j < locations.size()) {
-      for (String[] numbers : mapSourceDestination) {
-        long sourceStart = Long.parseLong(numbers[0]);
-        long destinationStart = Long.parseLong(numbers[1]);
-        long rangeLength = Long.parseLong(numbers[2]);
-        if (isPart2) {
-          if (destinationStart <= locations.get(j)
-              && locations.get(j + 1) <= (destinationStart + rangeLength)) {
-            locations.set(j, sourceStart + locations.get(j) - destinationStart);
-            locations.set(j + 1, sourceStart + locations.get(j + 1) - destinationStart);
-
-            break;
-          }
-        } else {
-          if (destinationStart <= locations.get(j)
-              && locations.get(j) <= (destinationStart + rangeLength)) {
-            locations.set(j, sourceStart + locations.get(j) - destinationStart);
-            break;
-          }
-        }
-      }
-      if (isPart2) {
-        j++;
-      }
-      j++;
-    }
   }
 
   @Override
   public String part2() {
-    locations = new ArrayList<>();
-    computeSeedsLocation(true);
-    return findLowestLocation();
+    List<Long> locations = readInitialLocations(true);
+    List<Long> minis = new ArrayList<>();
+    for (int i = 0; i < locations.size() - 1; i += 2) {
+      Long startSeed = locations.get(i);
+      Long endSeed = locations.get(i + 1);
+      minis.add(binarySearch(startSeed, endSeed));
+    }
+    return String.valueOf(Collections.min(minis));
   }
+
+  private Long getLocation(Long startSeed) {
+    Long location = startSeed;
+    for (Entry<Integer, List<String[]>> entry : almanac.entrySet()) {
+      location = findLocationNumber(entry.getValue(), location);
+    }
+    return location;
+  }
+
+  private Long binarySearch(long startSeed, long endSeed) {
+    if (startSeed == endSeed) {
+      return getLocation(startSeed);
+    }
+
+    long middleSeed = (startSeed + endSeed) / 2;
+
+    long startSeedLocation = getLocation(startSeed);
+    long middleSeedLocation = getLocation(middleSeed);
+    long endSeedLocation = getLocation(endSeed);
+
+    if (startSeed == middleSeed) {
+      return endSeedLocation;
+    }
+    return Math.min(
+        startSeedLocation + (middleSeed - startSeed) != middleSeedLocation ? binarySearch(startSeed,
+            middleSeed) : Long.MAX_VALUE,
+        middleSeedLocation + (endSeed - middleSeed) != endSeedLocation ? binarySearch(middleSeed,
+            endSeed) : Long.MAX_VALUE
+    );
+  }
+
 }
