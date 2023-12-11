@@ -5,13 +5,12 @@ import em.aoc.utils.Day;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.atomic.AtomicLong;
-import java.util.stream.Collectors;
 import java.util.stream.Stream;
 import org.slf4j.LoggerFactory;
 
 public class Day9 extends Day {
 
-  private List<List<Long>> history = new ArrayList<>();
+  private final List<List<Long>> history = new ArrayList<>();
 
   public Day9() {
     logger = LoggerFactory.getLogger(Day9.class);
@@ -19,8 +18,7 @@ public class Day9 extends Day {
         + AppConstants.TXT_EXTENSION;
     lines = readLines();
     lines.forEach(
-        s -> history.add(Stream.of(s.split("\\s+")).mapToLong(Long::parseLong).boxed().collect(
-            Collectors.toList())));
+        s -> history.add(Stream.of(s.split("\\s+")).mapToLong(Long::parseLong).boxed().toList()));
 
   }
 
