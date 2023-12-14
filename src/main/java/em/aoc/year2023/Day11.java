@@ -30,7 +30,7 @@ public class Day11 extends Day {
 
   @Override
   public String part1() {
-    return String.valueOf(getSum(coordinates, false));
+    return String.valueOf(getSum(2, 2));
   }
 
   private void expandGalaxy() {
@@ -45,45 +45,37 @@ public class Day11 extends Day {
     }
   }
 
-  private long getSum(List<List<Integer>> coordinates, boolean isPartTwo) {
+  private long getSum(long columnsBetween, long linesBetween) {
     long sum = 0L;
     for (int i = 0; i < coordinates.size() - 1; i++) {
       for (int j = i + 1; j < coordinates.size(); j++) {
         sum += Math.abs(coordinates.get(i).get(0) - coordinates.get(j).get(0)) + Math.abs(
-            coordinates.get(i).get(1) - coordinates.get(j).get(1)) + getLineOffset(isPartTwo,
-            coordinates.get(i).get(0), coordinates.get(j).get(0)) + getColumnOffset(isPartTwo,
+            coordinates.get(i).get(1) - coordinates.get(j).get(1)) + getLineOffset(linesBetween,
+            coordinates.get(i).get(0), coordinates.get(j).get(0)) + getColumnOffset(columnsBetween,
             coordinates.get(i).get(1), coordinates.get(j).get(1));
       }
     }
     return sum;
   }
 
-  private long getColumnOffset(boolean isPartTwo, Integer c1, Integer c2) {
+  private long getColumnOffset(long columnsBetween, int c1, int c2) {
     int offset = 0;
-    int start = c1 > c2 ? c2 : c1;
-    int end = c1 > c2 ? c1 : c2;
-    for (int i = start + 1; i < end; i++) {
+    for (int i = Math.min(c1, c2) + 1; i < Math.max(c1, c2); i++) {
       if (columnsToExpand.contains(i)) {
         offset++;
       }
     }
-    if (isPartTwo) {
-      return offset * (1000000L - 1);
-    }
-    return offset;
+    return offset * (columnsBetween - 1);
   }
 
-  private long getLineOffset(boolean isPartTwo, Integer l1, Integer l2) {
+  private long getLineOffset(long linesBetween, int l1, int l2) {
     int offset = 0;
     for (int i = l1 + 1; i < l2; i++) {
       if (linesToExpand.contains(i)) {
         offset++;
       }
     }
-    if (isPartTwo) {
-      return offset * (1000000L - 1);
-    }
-    return offset;
+    return offset * (linesBetween - 1);
   }
 
   private void getCoordinates() {
@@ -98,6 +90,6 @@ public class Day11 extends Day {
 
   @Override
   public String part2() {
-    return String.valueOf(getSum(coordinates, true));
+    return String.valueOf(getSum(1000000, 1000000));
   }
 }
