@@ -1,7 +1,7 @@
 package em.aoc.year2023;
 
 import em.aoc.utils.AppConstants;
-import em.aoc.utils.CardsComparator;
+import em.aoc.utils.DayUtils.CardsComparator;
 import em.aoc.utils.Day;
 import java.util.HashMap;
 import java.util.Map;

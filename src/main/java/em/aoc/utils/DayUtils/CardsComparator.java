@@ -1,4 +1,4 @@
-package em.aoc.utils;
+package em.aoc.utils.DayUtils;
 
 import java.util.Comparator;
 import java.util.HashMap;
