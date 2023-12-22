@@ -37,6 +37,8 @@ public class AppConstants {
   public static final String TXT_EXTENSION = ".txt";
   public static final String CHAR_SET_SMALL_LETTER_WORDS ="[a-z]+";
   public static final String CHAR_SET_BIGGER_OR_SMALLER = "[<>]";
+  public static final String CHAR_SET_SPACE ="\\s+";
+  public static final String CHAR_SET_COLON = ":";
 
   private AppConstants() {
     throw new IllegalStateException("Utility class");

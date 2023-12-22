@@ -77,7 +77,7 @@ public class Day5 extends Day {
 
   private List<Long> readInitialLocations(boolean isPart2) {
     List<Long> locations = new ArrayList<>();
-    String[] seeds = lines.get(0).split(":")[1].strip().split("\\s+");
+    String[] seeds = lines.get(0).split(AppConstants.CHAR_SET_COLON)[1].strip().split(AppConstants.CHAR_SET_SPACE);
     int i = 0;
     while (i < seeds.length) {
       if (isPart2) {
@@ -96,7 +96,7 @@ public class Day5 extends Day {
   private int moveToNewSection(int i, List<String[]> mapSourceDestination) {
     i++;
     while (i < lines.size() && lines.get(i).matches("\\d+\\s+\\d+\\s+\\d+")) {
-      mapSourceDestination.add(lines.get(i).split("\\s+"));
+      mapSourceDestination.add(lines.get(i).split(AppConstants.CHAR_SET_SPACE));
       i++;
     }
     return i;

@@ -46,7 +46,7 @@ public class Day7 extends Day {
 
   private Map<String, String> getAllCards() {
     Map<String, String> allCards = new HashMap<>();
-    lines.forEach(line -> allCards.put(line.split("\\s+")[0], line.split("\\s+")[1]));
+    lines.forEach(line -> allCards.put(line.split(AppConstants.CHAR_SET_SPACE)[0], line.split(AppConstants.CHAR_SET_SPACE)[1]));
     return allCards;
   }
 

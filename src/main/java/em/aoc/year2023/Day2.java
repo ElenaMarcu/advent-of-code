@@ -19,13 +19,14 @@ public class Day2 extends Day {
   }
 
   private static void addPossibleLines(String line) {
-    String gameNo = line.split(":")[0].trim().split(" ")[1];
-    String[] reveals = line.split(":")[1].trim().split(";");
+    String gameNo = line.split(AppConstants.CHAR_SET_COLON)[0].trim().split(
+        AppConstants.CHAR_SET_SPACE)[1];
+    String[] reveals = line.split(AppConstants.CHAR_SET_COLON)[1].trim().split(";");
     for (String reveal : reveals) {
       String[] revealedCubes = reveal.split(",");
       for (String cube : revealedCubes) {
-        String cubeNo = cube.trim().split(" ")[0];
-        String cubeColor = cube.trim().split(" ")[1];
+        String cubeNo = cube.trim().split(AppConstants.CHAR_SET_SPACE)[0];
+        String cubeColor = cube.trim().split(AppConstants.CHAR_SET_SPACE)[1];
         if (cubes.get(cubeColor) < Integer.parseInt(cubeNo)) {
           return;
         }
@@ -38,12 +39,12 @@ public class Day2 extends Day {
     cubes.put(AppConstants.BLUE, 1);
     cubes.put(AppConstants.RED, 1);
     cubes.put(AppConstants.GREEN, 1);
-    String[] reveals = line.split(":")[1].trim().split(";");
+    String[] reveals = line.split(AppConstants.CHAR_SET_COLON)[1].trim().split(";");
     for (String reveal : reveals) {
       String[] revealedCubes = reveal.split(",");
       for (String cube : revealedCubes) {
-        Integer cubeNo = Integer.parseInt(cube.trim().split(" ")[0]);
-        String cubeColor = cube.trim().split(" ")[1];
+        Integer cubeNo = Integer.parseInt(cube.trim().split(AppConstants.CHAR_SET_SPACE)[0]);
+        String cubeColor = cube.trim().split(AppConstants.CHAR_SET_SPACE)[1];
         if (cubes.get(cubeColor) < cubeNo) {
           cubes.put(cubeColor, cubeNo);
         }

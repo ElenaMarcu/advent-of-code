@@ -29,7 +29,7 @@ public class Day4 extends Day {
   }
 
   private static void countCardInstances(String line) {
-    int cardNumber = Integer.parseInt(line.split(":")[0].split("\\s+")[1]);
+    int cardNumber = Integer.parseInt(line.split(AppConstants.CHAR_SET_COLON)[0].split(AppConstants.CHAR_SET_SPACE)[1]);
     int noOfWinningNumbers = getNoWinningNumbers(line);
     cardInstances.putIfAbsent(cardNumber, 0L);
     cardInstances.computeIfPresent(cardNumber, (key, value) -> value + 1);
@@ -48,11 +48,11 @@ public class Day4 extends Day {
   }
 
   private static int getNoWinningNumbers(String line) {
-    line = line.split(":")[1];
+    line = line.split(AppConstants.CHAR_SET_COLON)[1];
     Set<String> winningNumbers = new HashSet<>(
-        Arrays.asList(line.strip().split("\\|")[0].strip().split("\\s+")));
+        Arrays.asList(line.strip().split("\\|")[0].strip().split(AppConstants.CHAR_SET_SPACE)));
     Set<String> myNumbers = new HashSet<>(
-        Arrays.asList(line.strip().split("\\|")[1].strip().split("\\s+")));
+        Arrays.asList(line.strip().split("\\|")[1].strip().split(AppConstants.CHAR_SET_SPACE)));
     winningNumbers.retainAll(myNumbers);
     return winningNumbers.size();
   }

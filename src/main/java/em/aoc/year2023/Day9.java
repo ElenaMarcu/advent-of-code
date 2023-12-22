@@ -18,7 +18,7 @@ public class Day9 extends Day {
         + AppConstants.TXT_EXTENSION;
     lines = readLines();
     lines.forEach(
-        s -> history.add(Stream.of(s.split("\\s+")).mapToLong(Long::parseLong).boxed().toList()));
+        s -> history.add(Stream.of(s.split(AppConstants.CHAR_SET_SPACE)).mapToLong(Long::parseLong).boxed().toList()));
 
   }
 

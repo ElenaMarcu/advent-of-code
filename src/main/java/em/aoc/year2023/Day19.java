@@ -64,8 +64,8 @@ public class Day19 extends Day {
       }
       int partValue = p.getPartValue(step.split(AppConstants.CHAR_SET_BIGGER_OR_SMALLER)[0]);
       int conditionParam = Integer.parseInt(
-          step.split(AppConstants.CHAR_SET_BIGGER_OR_SMALLER)[1].split(":")[0]);
-      String destination = step.split(AppConstants.CHAR_SET_BIGGER_OR_SMALLER)[1].split(":")[1];
+          step.split(AppConstants.CHAR_SET_BIGGER_OR_SMALLER)[1].split(AppConstants.CHAR_SET_COLON)[0]);
+      String destination = step.split(AppConstants.CHAR_SET_BIGGER_OR_SMALLER)[1].split(AppConstants.CHAR_SET_COLON)[1];
       if ((step.contains("<") && partValue < conditionParam) || (step.contains(">")
           && partValue > conditionParam)) {
         return destination;
@@ -122,8 +122,8 @@ public class Day19 extends Day {
   private void deconstructRule(String step, RatingIntervals currentRI,
       List<RatingIntervals> acceptedRatingIntervals, Queue<RatingIntervals> queue) {
     int conditionParam = Integer.parseInt(
-        step.split(AppConstants.CHAR_SET_BIGGER_OR_SMALLER)[1].split(":")[0]);
-    String destination = step.split(AppConstants.CHAR_SET_BIGGER_OR_SMALLER)[1].split(":")[1];
+        step.split(AppConstants.CHAR_SET_BIGGER_OR_SMALLER)[1].split(AppConstants.CHAR_SET_COLON)[0]);
+    String destination = step.split(AppConstants.CHAR_SET_BIGGER_OR_SMALLER)[1].split(AppConstants.CHAR_SET_COLON)[1];
     String category = step.split(AppConstants.CHAR_SET_BIGGER_OR_SMALLER)[0];
     int endValue = currentRI.getEndInterval(category);
     int startValue = currentRI.getStartInterval(category);

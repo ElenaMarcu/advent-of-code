@@ -49,8 +49,8 @@ public class Day6 extends Day {
 
 
   private List<Long[]> readMap() {
-    String[] time = lines.get(0).split(":")[1].trim().split("\\s+");
-    String[] distance = lines.get(1).split(":")[1].trim().split("\\s+");
+    String[] time = lines.get(0).split(AppConstants.CHAR_SET_COLON)[1].trim().split(AppConstants.CHAR_SET_SPACE);
+    String[] distance = lines.get(1).split(AppConstants.CHAR_SET_COLON)[1].trim().split(AppConstants.CHAR_SET_SPACE);
     List<Long[]> map = new ArrayList<>();
     for (int i = 0; i < time.length; i++) {
       map.add(new Long[]{Long.parseLong(time[i]), Long.parseLong(distance[i])});
@@ -60,8 +60,8 @@ public class Day6 extends Day {
 
   @Override
   public String part2() {
-    String timeString = lines.get(0).split(":")[1].trim().replaceAll("\\s", "");
-    String distanceString = lines.get(1).split(":")[1].trim().replaceAll("\\s", "");
+    String timeString = lines.get(0).split(AppConstants.CHAR_SET_COLON)[1].trim().replaceAll(AppConstants.CHAR_SET_SPACE, "");
+    String distanceString = lines.get(1).split(AppConstants.CHAR_SET_COLON)[1].trim().replaceAll(AppConstants.CHAR_SET_SPACE, "");
     long time = Long.parseLong(timeString);
     long distance = Long.parseLong(distanceString);
     double sqrt = Math.sqrt(time * time - 4.0 * distance);
