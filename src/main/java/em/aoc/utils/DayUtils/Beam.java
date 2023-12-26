@@ -1,5 +1,7 @@
 package em.aoc.utils.DayUtils;
 
+import em.aoc.utils.AppConstants;
+
 public class Beam {
 
   private int x;
@@ -48,6 +50,6 @@ public class Beam {
 
   @Override
   public String toString() {
-    return x + "," + y + "," + direction.getValue();
+    return x + AppConstants.CHAR_SET_COMMA + y + AppConstants.CHAR_SET_COMMA + direction.getValue();
   }
 }

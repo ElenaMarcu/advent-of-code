@@ -66,17 +66,23 @@ public class DijkstraAlgorithm {
     return lowestDistanceNode;
   }
 
-  public static int getGreatestDistance(Node nodeA) {
+  public static int getGreatestDistance(Node startNode) {
     int distance = Integer.MIN_VALUE;
     Map<Node, Integer> shortestDistance = new HashMap<>();
-    dijkstra(nodeA, shortestDistance, new HashMap<>());
+    dijkstra(startNode, shortestDistance, new HashMap<>());
     for (Entry<Node, Integer> entry : shortestDistance.entrySet()) {
       Node node = entry.getKey();
       Integer pathDistance = entry.getValue();
-      if (node != nodeA && distance < pathDistance) {
+      if (node != startNode && distance < pathDistance) {
         distance = pathDistance;
       }
     }
     return distance;
+  }
+
+  public static Map<Node, List<Node>> getShortestPathToNodes(Node startNode) {
+    Map<Node, List<Node>> shortestPaths = new HashMap<>();
+    dijkstra(startNode, new HashMap<>(), shortestPaths);
+    return shortestPaths;
   }
 }

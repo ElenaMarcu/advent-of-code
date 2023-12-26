@@ -122,12 +122,12 @@ public class Day3 extends Day {
       String line = lines.get(a);
       for (int b = startColumn; b <= endColumn; b++) {
         if (line.charAt(b) == '*') {
-          if (adjacency.containsKey(a + "," + b)) {
-            List<Long> numberList = adjacency.get(a + "," + b);
+          if (adjacency.containsKey(a + AppConstants.CHAR_SET_COMMA + b)) {
+            List<Long> numberList = adjacency.get(a + AppConstants.CHAR_SET_COMMA + b);
             numberList.add(Long.parseLong(sb.toString()));
-            adjacency.put(a + "," + b, numberList);
+            adjacency.put(a + AppConstants.CHAR_SET_COMMA + b, numberList);
           } else {
-            adjacency.put(a + "," + b, new ArrayList<>(List.of(Long.parseLong(sb.toString()))));
+            adjacency.put(a + AppConstants.CHAR_SET_COMMA + b, new ArrayList<>(List.of(Long.parseLong(sb.toString()))));
           }
         }
       }

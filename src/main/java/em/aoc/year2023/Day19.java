@@ -78,7 +78,7 @@ public class Day19 extends Day {
     for (String line : lines) {
       if (line.matches("^[a-z]+\\{.*$")) {
         String key = line.split("\\{")[0];
-        List<String> steps = List.of(line.split("\\{")[1].replace("}", "").split(","));
+        List<String> steps = List.of(line.split("\\{")[1].replace("}", "").split(AppConstants.CHAR_SET_COMMA));
         workflow.put(key, steps);
         continue;
       }

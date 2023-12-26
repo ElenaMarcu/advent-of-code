@@ -21,9 +21,9 @@ public class Day2 extends Day {
   private static void addPossibleLines(String line) {
     String gameNo = line.split(AppConstants.CHAR_SET_COLON)[0].trim().split(
         AppConstants.CHAR_SET_SPACE)[1];
-    String[] reveals = line.split(AppConstants.CHAR_SET_COLON)[1].trim().split(";");
+    String[] reveals = line.split(AppConstants.CHAR_SET_COLON)[1].trim().split(AppConstants.CHAR_SET_COMMA);
     for (String reveal : reveals) {
-      String[] revealedCubes = reveal.split(",");
+      String[] revealedCubes = reveal.split(AppConstants.CHAR_SET_COMMA);
       for (String cube : revealedCubes) {
         String cubeNo = cube.trim().split(AppConstants.CHAR_SET_SPACE)[0];
         String cubeColor = cube.trim().split(AppConstants.CHAR_SET_SPACE)[1];
@@ -41,7 +41,7 @@ public class Day2 extends Day {
     cubes.put(AppConstants.GREEN, 1);
     String[] reveals = line.split(AppConstants.CHAR_SET_COLON)[1].trim().split(";");
     for (String reveal : reveals) {
-      String[] revealedCubes = reveal.split(",");
+      String[] revealedCubes = reveal.split(AppConstants.CHAR_SET_COMMA);
       for (String cube : revealedCubes) {
         Integer cubeNo = Integer.parseInt(cube.trim().split(AppConstants.CHAR_SET_SPACE)[0]);
         String cubeColor = cube.trim().split(AppConstants.CHAR_SET_SPACE)[1];

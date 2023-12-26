@@ -39,7 +39,8 @@ public class AppConstants {
   public static final String CHAR_SET_BIGGER_OR_SMALLER = "[<>]";
   public static final String CHAR_SET_SPACE ="\\s+";
   public static final String CHAR_SET_COLON = ":";
-
+  public static final String CHAR_SET_COMMA = ",";
+  public static final String CHAR_SET_EQUAL = "=";
   private AppConstants() {
     throw new IllegalStateException("Utility class");
   }

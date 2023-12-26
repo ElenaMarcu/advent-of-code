@@ -1,5 +1,7 @@
 package em.aoc.utils.DayUtils;
 
+import em.aoc.utils.AppConstants;
+
 public class Rating {
 
   private int x;
@@ -15,16 +17,16 @@ public class Rating {
   }
 
   public Rating(String line) {
-    String[] values = line.split(",");
+    String[] values = line.split(AppConstants.CHAR_SET_COMMA);
     for (String value : values) {
       if (value.startsWith("x")) {
-        this.x = Integer.parseInt(value.split("=")[1]);
+        this.x = Integer.parseInt(value.split(AppConstants.CHAR_SET_EQUAL)[1]);
       } else if (value.startsWith("m")) {
-        this.m = Integer.parseInt(value.split("=")[1]);
+        this.m = Integer.parseInt(value.split(AppConstants.CHAR_SET_EQUAL)[1]);
       } else if (value.startsWith("a")) {
-        this.a = Integer.parseInt(value.split("=")[1]);
+        this.a = Integer.parseInt(value.split(AppConstants.CHAR_SET_EQUAL)[1]);
       } else if (value.startsWith("s")) {
-        this.s = Integer.parseInt(value.split("=")[1]);
+        this.s = Integer.parseInt(value.split(AppConstants.CHAR_SET_EQUAL)[1]);
       }
     }
   }

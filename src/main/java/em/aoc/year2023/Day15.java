@@ -21,7 +21,7 @@ public class Day15 extends Day {
     filePath = AppConstants.RESOURCES_PATH_MAIN + AppConstants.YEAR_2023 + AppConstants.DAY15
         + AppConstants.TXT_EXTENSION;
     lines = readLines();
-    stringList = Arrays.stream(lines.get(0).split(",")).toList();
+    stringList = Arrays.stream(lines.get(0).split(AppConstants.CHAR_SET_COMMA)).toList();
   }
 
   @Override
