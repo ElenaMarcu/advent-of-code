@@ -58,7 +58,8 @@ public class Day10 extends Day {
 
   private void checkDirections(Map<String, Node> nodeMap, int i, int j, boolean checkUp,
       boolean checkDown, boolean checkLeft, boolean checkRight) {
-    nodeMap.putIfAbsent(i + AppConstants.CHAR_SET_COMMA + j, new Node(i + AppConstants.CHAR_SET_COMMA + j));
+    nodeMap.putIfAbsent(i + AppConstants.CHAR_SET_COMMA + j,
+        new Node(i + AppConstants.CHAR_SET_COMMA + j));
     Node node = nodeMap.get(i + AppConstants.CHAR_SET_COMMA + j);
     if (checkUp) {
       checkUp(nodeMap, i, j, node);
@@ -76,28 +77,32 @@ public class Day10 extends Day {
 
   private void checkRight(Map<String, Node> nodeMap, int i, int j, Node node) {
     if (j + 1 < lines.get(i).length() && "J-S7".indexOf(lines.get(i).charAt(j + 1)) != -1) {
-      nodeMap.putIfAbsent(i + AppConstants.CHAR_SET_COMMA + (j + 1), new Node(i + AppConstants.CHAR_SET_COMMA + (j + 1)));
+      nodeMap.putIfAbsent(i + AppConstants.CHAR_SET_COMMA + (j + 1),
+          new Node(i + AppConstants.CHAR_SET_COMMA + (j + 1)));
       node.addDestination(nodeMap.get(i + AppConstants.CHAR_SET_COMMA + (j + 1)));
     }
   }
 
   private void checkLeft(Map<String, Node> nodeMap, int i, int j, Node node) {
     if (j - 1 >= 0 && "L-SF".indexOf(lines.get(i).charAt(j - 1)) != -1) {
-      nodeMap.putIfAbsent(i + AppConstants.CHAR_SET_COMMA + (j - 1), new Node(i + AppConstants.CHAR_SET_COMMA + (j - 1)));
+      nodeMap.putIfAbsent(i + AppConstants.CHAR_SET_COMMA + (j - 1),
+          new Node(i + AppConstants.CHAR_SET_COMMA + (j - 1)));
       node.addDestination(nodeMap.get(i + AppConstants.CHAR_SET_COMMA + (j - 1)));
     }
   }
 
   private void checkDown(Map<String, Node> nodeMap, int i, int j, Node node) {
     if (i + 1 < lines.size() && "J|SL".indexOf(lines.get(i + 1).charAt(j)) != -1) {
-      nodeMap.putIfAbsent((i + 1) + AppConstants.CHAR_SET_COMMA + j, new Node((i + 1) + AppConstants.CHAR_SET_COMMA + j));
+      nodeMap.putIfAbsent((i + 1) + AppConstants.CHAR_SET_COMMA + j,
+          new Node((i + 1) + AppConstants.CHAR_SET_COMMA + j));
       node.addDestination(nodeMap.get((i + 1) + AppConstants.CHAR_SET_COMMA + j));
     }
   }
 
   private void checkUp(Map<String, Node> nodeMap, int i, int j, Node node) {
     if (i - 1 >= 0 && "F|S7".indexOf(lines.get(i - 1).charAt(j)) != -1) {
-      nodeMap.putIfAbsent((i - 1) + AppConstants.CHAR_SET_COMMA + j, new Node((i - 1) + AppConstants.CHAR_SET_COMMA + j));
+      nodeMap.putIfAbsent((i - 1) + AppConstants.CHAR_SET_COMMA + j,
+          new Node((i - 1) + AppConstants.CHAR_SET_COMMA + j));
       node.addDestination(nodeMap.get((i - 1) + AppConstants.CHAR_SET_COMMA + j));
     }
   }
@@ -105,12 +110,49 @@ public class Day10 extends Day {
 
   @Override
   public String part2() {
-
     List<String> nodesToCheck = new ArrayList<>();
     Polygon polygon = new Polygon();
     populateNodeToList(nodesToCheck);
     populatePolygon(polygon);
+    //Second solution
+    Set<Node> visited = new HashSet<>();
+    double area = getArea(visited);
+    //Pick's Theorem
+    double noOfPoints = area - visited.size() / 2.0 + 1;
     return String.valueOf(countInsideNodes(polygon, nodesToCheck));
+  }
+
+  // Shoelace formula
+  private double getArea(Set<Node> visited) {
+    double area = 0;
+    Node firstNode = startNode;
+    visited.add(startNode);
+    Node secondNode = getNextNode(visited, firstNode);
+    while (!visited.contains(secondNode)) {
+      visited.add(secondNode);
+      area += getPointsMultiplication(firstNode, secondNode);
+      firstNode = secondNode;
+      secondNode = getNextNode(visited, firstNode);
+    }
+    area += getPointsMultiplication(firstNode, startNode);
+    return area > 0 ? area / 2 : -1 * area / 2;
+  }
+
+  private double getPointsMultiplication(Node firstNode, Node secondNode) {
+    int x1 = Integer.parseInt(firstNode.getName().split(AppConstants.CHAR_SET_COMMA)[0]);
+    int y1 = Integer.parseInt(firstNode.getName().split(AppConstants.CHAR_SET_COMMA)[1]);
+    int x2 = Integer.parseInt(secondNode.getName().split(AppConstants.CHAR_SET_COMMA)[0]);
+    int y2 = Integer.parseInt(secondNode.getName().split(AppConstants.CHAR_SET_COMMA)[1]);
+    return (y2 + y1) * (x2 - x1);
+  }
+
+  private Node getNextNode(Set<Node> visited, Node firstNode) {
+    for (Entry<Node, Integer> entry : firstNode.getAdjacentNodes().entrySet()) {
+      if (!visited.contains(entry.getKey())) {
+        return entry.getKey();
+      }
+    }
+    return firstNode;
   }
 
   private void populatePolygon(Polygon polygon) {
