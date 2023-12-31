@@ -19,7 +19,7 @@ public class Day10 extends Day {
   private final Node startNode;
 
   public Day10() {
-    logger = LoggerFactory.getLogger(Day9.class);
+    logger = LoggerFactory.getLogger(Day10.class);
     filePath = AppConstants.RESOURCES_PATH_MAIN + AppConstants.YEAR_2023 + AppConstants.DAY10
         + AppConstants.TXT_EXTENSION;
     lines = readLines();
