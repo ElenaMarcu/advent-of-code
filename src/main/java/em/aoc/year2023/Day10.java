@@ -2,12 +2,13 @@ package em.aoc.year2023;
 
 import em.aoc.utils.AppConstants;
 import em.aoc.utils.Day;
+import em.aoc.utils.DayUtils.Coordinates;
+import em.aoc.utils.Utilities;
 import em.aoc.utils.algorithms.DijkstraAlgorithm;
 import em.aoc.utils.algorithms.Node;
-import java.awt.Polygon;
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
@@ -110,40 +111,24 @@ public class Day10 extends Day {
 
   @Override
   public String part2() {
-    List<String> nodesToCheck = new ArrayList<>();
-    Polygon polygon = new Polygon();
-    populateNodeToList(nodesToCheck);
-    populatePolygon(polygon);
     //Second solution
+    List<Coordinates> coordinatesList = getPolygonExteriorPoints();
+    return String.valueOf(Utilities.getNoOfInteriorPoints(coordinatesList));
+  }
+
+  private List<Coordinates> getPolygonExteriorPoints() {
+    List<Coordinates> coordinatesList = new LinkedList<>();
+    Node currentNode = startNode;
     Set<Node> visited = new HashSet<>();
-    double area = getArea(visited);
-    //Pick's Theorem
-    double noOfPoints = area - visited.size() / 2.0 + 1;
-    return String.valueOf(countInsideNodes(polygon, nodesToCheck));
-  }
-
-  // Shoelace formula
-  private double getArea(Set<Node> visited) {
-    double area = 0;
-    Node firstNode = startNode;
-    visited.add(startNode);
-    Node secondNode = getNextNode(visited, firstNode);
-    while (!visited.contains(secondNode)) {
-      visited.add(secondNode);
-      area += getPointsMultiplication(firstNode, secondNode);
-      firstNode = secondNode;
-      secondNode = getNextNode(visited, firstNode);
+    while (!visited.contains(currentNode)) {
+      coordinatesList.add(
+          new Coordinates(
+              Integer.parseInt(currentNode.getName().split(AppConstants.CHAR_SET_COMMA)[0]),
+              Integer.parseInt(currentNode.getName().split(AppConstants.CHAR_SET_COMMA)[1])));
+      visited.add(currentNode);
+      currentNode = getNextNode(visited, currentNode);
     }
-    area += getPointsMultiplication(firstNode, startNode);
-    return area > 0 ? area / 2 : -1 * area / 2;
-  }
-
-  private double getPointsMultiplication(Node firstNode, Node secondNode) {
-    int x1 = Integer.parseInt(firstNode.getName().split(AppConstants.CHAR_SET_COMMA)[0]);
-    int y1 = Integer.parseInt(firstNode.getName().split(AppConstants.CHAR_SET_COMMA)[1]);
-    int x2 = Integer.parseInt(secondNode.getName().split(AppConstants.CHAR_SET_COMMA)[0]);
-    int y2 = Integer.parseInt(secondNode.getName().split(AppConstants.CHAR_SET_COMMA)[1]);
-    return (y2 + y1) * (x2 - x1);
+    return coordinatesList;
   }
 
   private Node getNextNode(Set<Node> visited, Node firstNode) {
@@ -155,45 +140,4 @@ public class Day10 extends Day {
     return firstNode;
   }
 
-  private void populatePolygon(Polygon polygon) {
-    Set<Node> visited = new HashSet<>();
-    Node currentNode = startNode;
-    while (!visited.contains(currentNode)) {
-      visited.add(currentNode);
-      int x = Integer.parseInt(currentNode.getName().split(AppConstants.CHAR_SET_COMMA)[0]);
-      int y = Integer.parseInt(currentNode.getName().split(AppConstants.CHAR_SET_COMMA)[1]);
-      polygon.addPoint(x, y);
-      for (Entry<Node, Integer> entry : currentNode.getAdjacentNodes().entrySet()) {
-        if (!visited.contains(entry.getKey())) {
-          currentNode = entry.getKey();
-        }
-      }
-    }
-  }
-
-  private int countInsideNodes(Polygon polygon, List<String> nodesToCheck) {
-    int count = 0;
-    for (String node : nodesToCheck) {
-      int x = Integer.parseInt(node.split(AppConstants.CHAR_SET_COMMA)[0]);
-      int y = Integer.parseInt(node.split(AppConstants.CHAR_SET_COMMA)[1]);
-      if (polygon.contains(x, y)) {
-        count++;
-      }
-    }
-    return count;
-  }
-
-  private void populateNodeToList(List<String> nodesToCheck) {
-    Map<Node, List<Node>> pathNodes = DijkstraAlgorithm.getShortestPathToNodes(startNode);
-    List<String> polygonPoints = pathNodes.keySet().stream()
-        .flatMap(c -> c.getName().describeConstable()
-            .stream()).toList();
-    for (int i = 0; i < lines.size(); i++) {
-      for (int j = 0; j < lines.get(0).length(); j++) {
-        if (!polygonPoints.contains(i + AppConstants.CHAR_SET_COMMA + j)) {
-          nodesToCheck.add(i + AppConstants.CHAR_SET_COMMA + j);
-        }
-      }
-    }
-  }
 }
